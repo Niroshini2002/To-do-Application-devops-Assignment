@@ -9,14 +9,18 @@ const notification = document.getElementById('notification');
 const statsBtn = document.getElementById('statsBtn');
 const statsModal = document.getElementById('statsModal');
 const closeBtn = document.querySelector('.close');
+const reminderTimeInput = document.getElementById('reminderTime');
 
 // State
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+let reminders = JSON.parse(localStorage.getItem('reminders')) || [];
+let reminderCheckInterval = null;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     renderTasks();
     setupEventListeners();
+    initializeReminders();
 });
 
 // Event Listeners
@@ -31,6 +35,12 @@ function setupEventListeners() {
     window.addEventListener('click', (e) => {
         if (e.target === statsModal) closeStatsModal();
     });
+    
+    // Reminder event listener
+    const setReminderBtn = document.getElementById('setReminderBtn');
+    if (setReminderBtn) {
+        setReminderBtn.addEventListener('click', setReminderForTasks);
+    }
 }
 
 // Add Task
@@ -286,3 +296,214 @@ function updateStats() {
     document.getElementById('totalTasks').textContent = totalTasks;
     document.getElementById('completionRate').textContent = completionRate + '%';
 }
+
+// ==================== REMINDER FEATURE ====================
+
+// Initialize Reminders on Load
+function initializeReminders() {
+    requestNotificationPermission();
+    renderReminders();
+    startReminderCheck();
+    restoreReminderTime();
+}
+
+// Request Notification Permission
+function requestNotificationPermission() {
+    if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission();
+    }
+}
+
+// Set Reminder
+function setReminderForTasks() {
+    const timeValue = reminderTimeInput.value;
+    
+    if (!timeValue) {
+        showNotification('Please select a reminder time', 'error');
+        return;
+    }
+
+    const [hours, minutes] = timeValue.split(':').map(Number);
+    
+    const reminder = {
+        id: Date.now(),
+        time: timeValue,
+        hours: hours,
+        minutes: minutes,
+        createdAt: new Date().toISOString(),
+        triggered: false,
+        completed: false
+    };
+
+    reminders.push(reminder);
+    saveReminders();
+    renderReminders();
+    showNotification(`✓ Reminder set for ${timeValue}`, 'success');
+}
+
+// Start Reminder Check
+function startReminderCheck() {
+    // Clear existing interval
+    if (reminderCheckInterval) {
+        clearInterval(reminderCheckInterval);
+    }
+
+    // Check every 30 seconds
+    reminderCheckInterval = setInterval(() => {
+        const now = new Date();
+        
+        reminders.forEach(reminder => {
+            if (!reminder.completed && !reminder.triggered) {
+                if (now.getHours() === reminder.hours && now.getMinutes() === reminder.minutes) {
+                    triggerReminder(reminder);
+                }
+            }
+        });
+    }, 30000); // Check every 30 seconds
+}
+
+// Trigger Reminder
+function triggerReminder(reminder) {
+    reminder.triggered = true;
+    saveReminders();
+    renderReminders();
+
+    // Get active tasks count
+    const activeTasks = tasks.filter(t => !t.completed);
+    const taskCount = activeTasks.length;
+
+    if (taskCount > 0) {
+        playReminderSound();
+        showNotification(
+            `🔔 Reminder! You have ${taskCount} pending task(s)`,
+            'info'
+        );
+
+        // Browser notification
+        if ('Notification' in window && Notification.permission === 'granted') {
+            new Notification('📝 Task Reminder', {
+                body: `You have ${taskCount} pending task(s) to complete!`,
+                icon: '🔔',
+                tag: 'task-reminder',
+                requireInteraction: true
+            });
+        }
+    }
+}
+
+// Play Reminder Sound
+function playReminderSound() {
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const notes = [523, 659, 784]; // C5, E5, G5 (Pleasant chord)
+
+        notes.forEach((frequency, index) => {
+            const oscillator = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+
+            oscillator.connect(gain);
+            gain.connect(audioContext.destination);
+
+            const startTime = audioContext.currentTime + index * 0.15;
+            oscillator.frequency.setValueAtTime(frequency, startTime);
+            
+            gain.gain.setValueAtTime(0.25, startTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.2);
+
+            oscillator.start(startTime);
+            oscillator.stop(startTime + 0.2);
+        });
+    } catch (e) {
+        console.log('Audio context not available');
+    }
+}
+
+// Render Reminders
+function renderReminders() {
+    const activeReminders = reminders.filter(r => !r.completed);
+    const remindersDisplay = document.getElementById('activeReminders');
+
+    if (!remindersDisplay) return; // Element not found
+
+    if (activeReminders.length === 0) {
+        remindersDisplay.innerHTML = '<p class="empty-msg">No reminders set</p>';
+        return;
+    }
+
+    const reminderHTML = activeReminders
+        .sort((a, b) => {
+            const timeA = a.hours * 60 + a.minutes;
+            const timeB = b.hours * 60 + b.minutes;
+            return timeA - timeB;
+        })
+        .map(reminder => {
+            const now = new Date();
+            const reminderTime = new Date();
+            reminderTime.setHours(reminder.hours, reminder.minutes, 0);
+            
+            const isOverdue = reminderTime < now && !reminder.triggered;
+            const isPassed = reminder.triggered;
+
+            return `
+                <div class="reminder-card ${isPassed ? 'triggered' : 'active'}">
+                    <div class="reminder-header">
+                        <span class="reminder-title">📋 Task Reminder</span>
+                        <span class="reminder-time-badge ${isOverdue ? 'overdue' : ''}">
+                            ${reminder.time} ${isOverdue ? '⚠️' : ''}
+                        </span>
+                    </div>
+                    <div class="reminder-info">
+                        <span><span class="reminder-label">Set:</span> ${new Date(reminder.createdAt).toLocaleString()}</span>
+                        <span><span class="reminder-label">Active Tasks:</span> ${tasks.filter(t => !t.completed).length}</span>
+                    </div>
+                    <div class="reminder-actions">
+                        <button class="reminder-action-btn reminder-complete-btn" onclick="completeReminder(${reminder.id})">
+                            ✓ Done
+                        </button>
+                        <button class="reminder-action-btn reminder-delete-btn" onclick="deleteReminder(${reminder.id})">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            `;
+        })
+        .join('');
+
+    remindersDisplay.innerHTML = reminderHTML;
+}
+
+// Complete Reminder
+function completeReminder(id) {
+    const reminder = reminders.find(r => r.id === id);
+    if (reminder) {
+        reminder.completed = true;
+        saveReminders();
+        renderReminders();
+        showNotification('Reminder completed!', 'success');
+    }
+}
+
+// Delete Reminder
+function deleteReminder(id) {
+    if (confirm('Delete this reminder?')) {
+        reminders = reminders.filter(r => r.id !== id);
+        saveReminders();
+        renderReminders();
+        showNotification('Reminder deleted', 'info');
+    }
+}
+
+// Save Reminders to LocalStorage
+function saveReminders() {
+    localStorage.setItem('reminders', JSON.stringify(reminders));
+}
+
+// Restore Reminder Time Input
+function restoreReminderTime() {
+    const lastReminder = reminders.filter(r => !r.completed).pop();
+    if (lastReminder && reminderTimeInput) {
+        reminderTimeInput.value = lastReminder.time;
+    }
+}
+
+// ==================== END REMINDER FEATURE ====================
