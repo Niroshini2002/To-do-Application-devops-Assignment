@@ -181,7 +181,7 @@ function escapeHtml(text) {
     div.textContent = text;
     return div.innerHTML;
 }
-
+gi
 // Open Stats Modal
 function openStatsModal() {
     statsModal.classList.add('show');
