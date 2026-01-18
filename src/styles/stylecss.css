@@ -120,6 +120,219 @@ body {
     box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
+/* ==================== REMINDER STYLES ==================== */
+
+.reminder-section {
+    display: flex;
+    gap: 10px;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #f0f4ff 0%, #e8f0ff 100%);
+    align-items: center;
+    flex-wrap: wrap;
+    border-bottom: 2px solid #667eea;
+}
+
+.reminder-section label {
+    font-weight: 700;
+    color: #667eea;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.reminder-section input {
+    padding: 10px 12px;
+    border: 2px solid #667eea;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    transition: all 0.3s;
+}
+
+.reminder-section input:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(102, 126, 234, 0.4);
+}
+
+.reminder-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+.reminder-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(102, 126, 234, 0.4);
+}
+
+.reminder-btn:active {
+    transform: translateY(0);
+}
+
+/* Reminders Display Section */
+.reminders-display {
+    padding: 20px;
+    background: #f8f9fa;
+    border-top: 1px solid #e0e0e0;
+}
+
+.reminders-display h3 {
+    color: #667eea;
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+.active-reminders {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.empty-msg {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 15px;
+}
+
+/* Reminder Card */
+.reminder-card {
+    background: white;
+    border-left: 4px solid #ff9800;
+    padding: 12px 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    animation: slideInLeft 0.3s ease;
+}
+
+.reminder-card.active {
+    border-left-color: #ff9800;
+    background: #fffbf0;
+}
+
+.reminder-card.triggered {
+    border-left-color: #f44336;
+    background: #ffebee;
+}
+
+.reminder-card.completed {
+    border-left-color: #4caf50;
+    background: #f1f8f4;
+    opacity: 0.7;
+}
+
+.reminder-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.reminder-time-badge {
+    background: #ff9800;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.reminder-time-badge.overdue {
+    background: #f44336;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.reminder-title {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.reminder-info {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 8px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.reminder-label {
+    font-weight: 500;
+    color: #667eea;
+}
+
+.reminder-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.reminder-action-btn {
+    flex: 1;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.reminder-edit-btn {
+    background: #2196F3;
+    color: white;
+}
+
+.reminder-delete-btn {
+    background: #f44336;
+    color: white;
+}
+
+.reminder-complete-btn {
+    background: #4caf50;
+    color: white;
+}
+
+.reminder-action-btn:active {
+    transform: scale(0.95);
+}
+
+/* ==================== END REMINDER STYLES ==================== */
+
+@media (max-width: 480px) {
+    .reminder-section {
+        flex-direction: column;
+    }
+
+    .reminder-section input,
+    .reminder-btn {
+        width: 100%;
+    }
+
+    .reminder-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .reminder-info {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
 /* Task Categories */
 .task-categories {
     display: flex;
