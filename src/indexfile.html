@@ -46,12 +46,37 @@
                 placeholder="Add a new task..."
                 autocomplete="off"
             >
+            <input 
+                type="date" 
+                id="dueDateInput" 
+                class="due-date-input"
+                title="Due date (optional)"
+            >
             <button class="add-btn" id="addBtn">Add Task</button>
         </div>
 
-        <!-- Task List -->
-        <div class="todo-list" id="todoList">
-            <p class="empty-message">No tasks yet. Add one to get started!</p>
+        <!-- Task Categories -->
+        <div class="task-categories">
+            <div class="category-section">
+                <h2 class="category-title overdue-title">⏰ Overdue</h2>
+                <div class="todo-list" id="overdueList">
+                    <p class="empty-message">No overdue tasks!</p>
+                </div>
+            </div>
+            
+            <div class="category-section">
+                <h2 class="category-title pending-title">📋 Pending</h2>
+                <div class="todo-list" id="pendingList">
+                    <p class="empty-message">No pending tasks. Add one to get started!</p>
+                </div>
+            </div>
+            
+            <div class="category-section">
+                <h2 class="category-title completed-title">✅ Completed</h2>
+                <div class="todo-list" id="completedList">
+                    <p class="empty-message">No completed tasks yet.</p>
+                </div>
+            </div>
         </div>
     </div>
 

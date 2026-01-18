@@ -86,6 +86,20 @@ body {
     border-color: #667eea;
 }
 
+.due-date-input {
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+    width: 150px;
+}
+
+.due-date-input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
 .add-btn {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -106,10 +120,45 @@ body {
     box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
+/* Task Categories */
+.task-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.category-section {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.category-title {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px 20px;
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.overdue-title {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+}
+
+.pending-title {
+    background: linear-gradient(135deg, #ffa726 0%, #fb8c00 100%);
+}
+
+.completed-title {
+    background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+}
+
 /* Todo List */
 .todo-list {
     padding: 20px;
-    max-height: 500px;
+    max-height: 400px;
     overflow-y: auto;
 }
 
@@ -175,6 +224,35 @@ body {
     font-size: 12px;
     color: #999;
     white-space: nowrap;
+}
+
+.due-date {
+    font-size: 12px;
+    color: #666;
+    white-space: nowrap;
+    margin-top: 2px;
+}
+
+.due-date.due-soon {
+    color: #ff9800;
+    font-weight: bold;
+}
+
+.due-date.overdue-text {
+    color: #f44336;
+    font-weight: bold;
+}
+
+.todo-item.overdue {
+    border-left-color: #f44336;
+    background: #fff5f5;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 2px 10px rgba(244, 67, 54, 0.2); }
+    50% { box-shadow: 0 2px 10px rgba(244, 67, 54, 0.4); }
+    100% { box-shadow: 0 2px 10px rgba(244, 67, 54, 0.2); }
 }
 
 .todo-actions {
@@ -339,10 +417,17 @@ body {
 
     .input-section {
         flex-direction: column;
+        gap: 8px;
     }
 
+    .task-input,
+    .due-date-input,
     .add-btn {
         width: 100%;
+    }
+
+    .due-date-input {
+        width: 100% !important;
     }
 
     .stats-container {

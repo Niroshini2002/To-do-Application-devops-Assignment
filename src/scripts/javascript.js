@@ -1,7 +1,10 @@
 // DOM Elements
 const taskInput = document.getElementById('taskInput');
+const dueDateInput = document.getElementById('dueDateInput');
 const addBtn = document.getElementById('addBtn');
-const todoList = document.getElementById('todoList');
+const overdueList = document.getElementById('overdueList');
+const pendingList = document.getElementById('pendingList');
+const completedList = document.getElementById('completedList');
 const notification = document.getElementById('notification');
 const statsBtn = document.getElementById('statsBtn');
 const statsModal = document.getElementById('statsModal');
@@ -33,6 +36,8 @@ function setupEventListeners() {
 // Add Task
 function addTask() {
     const text = taskInput.value.trim();
+    const dueDate = dueDateInput.value;
+    
     if (!text) {
         showNotification('Please enter a task', 'error');
         return;
@@ -43,13 +48,15 @@ function addTask() {
         text: text,
         completed: false,
         createdDate: new Date().toISOString(),
-        completedDate: null
+        completedDate: null,
+        dueDate: dueDate ? new Date(dueDate).toISOString() : null
     };
 
     tasks.push(task);
     saveTasks();
     renderTasks();
     taskInput.value = '';
+    dueDateInput.value = '';
     taskInput.focus();
     showNotification('Task added successfully!', 'success');
 }
@@ -87,41 +94,105 @@ function editTask(id) {
     if (!task) return;
 
     const newText = prompt('Edit your task:', task.text);
-    if (newText !== null && newText.trim()) {
+    if (newText === null) return; // User cancelled
+    
+    if (newText.trim()) {
         task.text = newText.trim();
-        saveTasks();
-        renderTasks();
-        showNotification('Task updated', 'info');
+    } else {
+        showNotification('Task text cannot be empty', 'error');
+        return;
     }
+
+    const currentDueDate = task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : '';
+    const newDueDate = prompt('Edit due date (YYYY-MM-DD) or leave empty:', currentDueDate);
+    
+    if (newDueDate !== null) {
+        if (newDueDate.trim() === '') {
+            task.dueDate = null;
+        } else {
+            const date = new Date(newDueDate);
+            if (!isNaN(date.getTime())) {
+                task.dueDate = date.toISOString();
+            } else {
+                showNotification('Invalid date format. Use YYYY-MM-DD', 'error');
+                return;
+            }
+        }
+    }
+
+    saveTasks();
+    renderTasks();
+    showNotification('Task updated', 'info');
 }
 
 // Render Tasks
 function renderTasks() {
-    if (tasks.length === 0) {
-        todoList.innerHTML = '<p class="empty-message">No tasks yet. Add one to get started!</p>';
+    const now = new Date();
+    
+    // Categorize tasks
+    const overdueTasks = tasks.filter(task => 
+        !task.completed && task.dueDate && new Date(task.dueDate) < now
+    );
+    
+    const pendingTasks = tasks.filter(task => 
+        !task.completed && (!task.dueDate || new Date(task.dueDate) >= now)
+    );
+    
+    const completedTasks = tasks.filter(task => task.completed);
+    
+    // Render each category
+    renderTaskList(overdueList, overdueTasks, 'overdue');
+    renderTaskList(pendingList, pendingTasks, 'pending');
+    renderTaskList(completedList, completedTasks, 'completed');
+    
+    // Update stats
+    updateStats();
+}
+
+// Helper function to render a task list
+function renderTaskList(container, taskList, category) {
+    if (taskList.length === 0) {
+        const emptyMessage = category === 'overdue' ? 'No overdue tasks!' :
+                           category === 'pending' ? 'No pending tasks. Add one to get started!' :
+                           'No completed tasks yet.';
+        container.innerHTML = `<p class="empty-message">${emptyMessage}</p>`;
         return;
     }
 
-    todoList.innerHTML = tasks
-        .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate))
-        .map(task => `
-            <div class="todo-item ${task.completed ? 'completed' : ''}">
-                <input 
-                    type="checkbox" 
-                    class="checkbox" 
-                    ${task.completed ? 'checked' : ''}
-                    onchange="toggleTask(${task.id})"
-                >
-                <div style="flex: 1;">
-                    <p class="todo-text">${escapeHtml(task.text)}</p>
-                    <p class="todo-date">${formatDate(task.createdDate)}</p>
+    // Sort tasks: overdue by due date (soonest first), others by creation date
+    const sortedTasks = taskList.sort((a, b) => {
+        if (category === 'overdue' && a.dueDate && b.dueDate) {
+            return new Date(a.dueDate) - new Date(b.dueDate);
+        }
+        return new Date(b.createdDate) - new Date(a.createdDate);
+    });
+
+    container.innerHTML = sortedTasks
+        .map(task => {
+            const isOverdue = category === 'overdue';
+            const dueDateDisplay = task.dueDate ? formatDate(task.dueDate) : 'No due date';
+            const daysUntilDue = task.dueDate ? Math.ceil((new Date(task.dueDate) - new Date()) / (1000 * 60 * 60 * 24)) : null;
+            
+            return `
+                <div class="todo-item ${task.completed ? 'completed' : ''} ${isOverdue ? 'overdue' : ''}">
+                    <input 
+                        type="checkbox" 
+                        class="checkbox" 
+                        ${task.completed ? 'checked' : ''}
+                        onchange="toggleTask(${task.id})"
+                    >
+                    <div style="flex: 1;">
+                        <p class="todo-text">${escapeHtml(task.text)}</p>
+                        <p class="todo-date">Created: ${formatDate(task.createdDate)}</p>
+                        ${task.dueDate ? `<p class="due-date ${isOverdue ? 'overdue-text' : daysUntilDue <= 1 ? 'due-soon' : ''}">Due: ${dueDateDisplay}${daysUntilDue !== null && daysUntilDue >= 0 ? ` (${daysUntilDue === 0 ? 'Today' : daysUntilDue === 1 ? 'Tomorrow' : `${daysUntilDue} days`})` : ''}</p>` : ''}
+                    </div>
+                    <div class="todo-actions">
+                        <button class="edit-btn" onclick="editTask(${task.id})">Edit</button>
+                        <button class="delete-btn" onclick="deleteTask(${task.id})">Delete</button>
+                    </div>
                 </div>
-                <div class="todo-actions">
-                    <button class="edit-btn" onclick="editTask(${task.id})">Edit</button>
-                    <button class="delete-btn" onclick="deleteTask(${task.id})">Delete</button>
-                </div>
-            </div>
-        `)
+            `;
+        })
         .join('');
 }
 
