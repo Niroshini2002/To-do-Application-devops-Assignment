@@ -8,7 +8,7 @@
 This is a mobile friendly todo list applications that helps users manage their daily task
 
 ## Live Deployment
-🔗 **Live URL:** [Your deployed application URL]
+🔗 https://to-do-application-devops-assignment-six.vercel.app/
 
 ## Technologies Used
 - HTML5, CSS3, JavaScript
