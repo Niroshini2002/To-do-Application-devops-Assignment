@@ -32,10 +32,6 @@ https://to-do-application-devops-assignment-six.vercel.app/
 -Data Persistence: All data is saved locally and survives browser refreshes
 
 
-ity (e.g., feature/reminders, feature/stats)
-- **hotfix/***: Emergency fixes for production issues
-- Pull requests are required for merging into main/develop branches
-- CI/CD pipeline runs automated tests and deployment on pushes to main
 ##INDIVIDUAL CONTRIBUTIONS
 ### Niroshini Sachithananthan (DevOps Engineer - ITBIN-2313-0074)
 - Set up GitHub repository and branch strategy
