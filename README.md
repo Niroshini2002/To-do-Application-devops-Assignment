@@ -1,42 +1,49 @@
-# To-Do Application
+#To-do-Application
 
-## Group Information
-- Student 1:Niroshini Sachithananthan - ITBIN-2313-0074 - Role:DevOps engineer
-- Student 2: Deva nivethitha Thiyagaraja - ITBIN-2313-0075 - Role:Fullstack developer
+##GROUP INFORMATION
+Niroshini Sachithananthan-ITBIN-2313-0074-Role:DevOps Engineer
+Deva nivethitha Thiyagaraja-ITBIN-2313-0075-Role:Full-Stack Developer
 
-## Project Description
-This is a mobile friendly todo list applications that helps users manage their daily task
+##PROJECT DESCRIPTION
+This is a mobile friendly todo list applications that helps users manage their daily task 
 
-## Live Deployment
-🔗 https://to-do-application-devops-assignment-six.vercel.app/
+##LIVE DEPLOYMENT
+https://to-do-application-devops-assignment-six.vercel.app/
 
-## Technologies Used
-- HTML5, CSS3, JavaScript
-- [Any frameworks/libraries used]
-- GitHub Actions
-- [Deployment platform name]
+##TECHNOLOGIES USED
+-HTML
+-CSS
+-JAVASCRIPT
+-GIT & GITHUB
+-GitHub Actions(CI/CD)
+-Vercel Deployment
 
-## Features
-feature/Reminder_new
-feature/task_add
-feature/filter
+##FEATURES
+-Task Management: Add, edit, delete, and mark tasks as completed
+-Due Dates: Set optional due dates for tasks with visual indicators for overdue and upcoming tasks
+-Task Categorization: Automatically categorizes tasks into Overdue, Pending, and Completed sections
+-Statistics Dashboard: View monthly completion statistics including completed tasks, total tasks, and completion rate
+-Reminders: Set time-based reminders that trigger browser notifications and play sounds to remind users of pending tasks
+-Local Storage: Persists tasks and reminders locally in the browser
+-Responsive Design: Mobile-friendly interface that works on all devices
+-Notifications: Real-time feedback for user actions with success, error, and info messages
+-Sound Effects: Audio feedback for task completion and reminders
+-Data Persistence: All data is saved locally and survives browser refreshes
 
-## Branch Strategy
-We implemented the following branching strategy:
-- `main` - Production branch
-- `develop` - Integration branch
-- `feature/*` - Feature development branches
 
-## Individual Contributions
-
-### Niroshini Sachithananthan
+ity (e.g., feature/reminders, feature/stats)
+- **hotfix/***: Emergency fixes for production issues
+- Pull requests are required for merging into main/develop branches
+- CI/CD pipeline runs automated tests and deployment on pushes to main
+##INDIVIDUAL CONTRIBUTIONS
+### Niroshini Sachithananthan (DevOps Engineer - ITBIN-2313-0074)
 - Set up GitHub repository and branch strategy
 - Configured GitHub Actions for CI/CD pipeline
 - Deployed application to Vercel for live hosting
 - Implemented automated deployment workflows
 - Managed version control and collaboration processes
 
-### Deva nivethitha Thiyagaraja
+### Deva nivethitha Thiyagaraja (Full-Stack Developer - ITBIN-2313-0075)
 - Developed the complete frontend application using HTML, CSS, and JavaScript
 - Implemented task management functionality (add, edit, delete, complete)
 - Created responsive UI design with modern styling
@@ -44,39 +51,10 @@ We implemented the following branching strategy:
 - Integrated local storage for data persistence
 - Built statistics dashboard and user feedback system
 
-## Setup Instructions
-
-### Prerequisites
-- Node.js (version 18 or higher)
-- Git
-- Web browser
-
-### Installation
-```bash
-# Clone the repository
-git clone https://github.com/Niroshini2002/To-do-Application-devops-Assignment.git
-
-# Navigate to project directory
-cd To-do-Application-devops-Assignment
-
-# Open src/index.html in a web browser
-
-# Deployment Process
-The CI/CD pipeline is implemented using GitHub Actions. On every push to the main branch, the pipeline automatically builds and deploys the application to Vercel for live hosting.
-# Challenges Faced
-
-- Implementing browser notifications for reminders: Required handling user permissions and ensuring compatibility across browsers. Resolved by using the Notification API with proper permission checks.
-- Ensuring data persistence with local storage: Needed to handle JSON serialization and deserialization for complex data structures. Resolved by creating utility functions for storage operations.
-- Setting up automated deployment: Initial configuration of GitHub Actions for Vercel deployment had authentication issues. Resolved by properly configuring secrets and following Vercel integration guides.
-- Responsive design for mobile devices: Achieving consistent UI across different screen sizes. Resolved by using CSS Grid and Flexbox with media queries.
-
-# Build Status
-
-[![Build Status](https://github.com/Niroshini2002/To-do-Application-devops-Assignment/actions/workflows/ci.yml/badge.svg)](https://github.com/Niroshini2002/To-do-Application-devops-Assignment/actions)
-[![Deploy to Vercel](https://vercel.com/button/Niroshini2002/to-do-application-devops-assignment)](https://to-do-application-devops-assignment-six.vercel.app/)
-[![GitHub stars](https://img.shields.io/github/stars/Niroshini2002/To-do-Application-devops-Assignment)](https://github.com/Niroshini2002/To-do-Application-devops-Assignment/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/Niroshini2002/To-do-Application-devops-Assignment)](https://github.com/Niroshini2002/To-do-Application-devops-Assignment/network/members)
-[![GitHub issues](https://img.shields.io/github/issues/Niroshini2002/To-do-Application-devops-Assignment)](https://github.com/Niroshini2002/To-do-Application-devops-Assignment/issues)
+##BUILD STATUS BADGES
+[![Build Status](https://github.com/your-username/To-do-Application-devops-Assignment/actions/workflows/ci.yml/badge.svg)](https://github.com/your-username/To-do-Application-devops-Assignment/actions)
+[![Deploy to Vercel](https://vercel.com/button/your-username/to-do-application-devops-assignment)](https://to-do-application-devops-assignment-six.vercel.app/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
