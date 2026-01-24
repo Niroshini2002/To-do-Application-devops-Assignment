@@ -20,6 +20,7 @@ https://to-do-application-devops-assignment-six.vercel.app/
 
 ##FEATURES
 -Task Management: Add, edit, delete, and mark tasks as completed
+-filter tasks option
 -Due Dates: Set optional due dates for tasks with visual indicators for overdue and upcoming tasks
 -Task Categorization: Automatically categorizes tasks into Overdue, Pending, and Completed sections
 -Statistics Dashboard: View monthly completion statistics including completed tasks, total tasks, and completion rate
@@ -53,8 +54,3 @@ ity (e.g., feature/reminders, feature/stats)
 
 ##BUILD STATUS BADGES
 [![Build Status](https://github.com/your-username/To-do-Application-devops-Assignment/actions/workflows/ci.yml/badge.svg)](https://github.com/your-username/To-do-Application-devops-Assignment/actions)
-[![Deploy to Vercel](https://vercel.com/button/your-username/to-do-application-devops-assignment)](https://to-do-application-devops-assignment-six.vercel.app/)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
-[![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
