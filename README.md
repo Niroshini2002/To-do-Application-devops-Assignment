@@ -1,8 +1,8 @@
-# TO-DO-APPLICATION
+# To-Do Application
 
 ## Group Information
 - Student 1:Niroshini Sachithananthan - ITBIN-2313-0074 - Role:DevOps engineer
-- Student 2: Deva nivethitha Thiyagaraja - [Student ID] - Role:Fullstack developer
+- Student 2: Deva nivethitha Thiyagaraja - ITBIN-2313-0075 - Role:Fullstack developer
 
 ## Project Description
 This is a mobile friendly todo list applications that helps users manage their daily task
