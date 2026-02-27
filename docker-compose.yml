@@ -1,27 +1,23 @@
 version: '3.8'
 
 services:
-  todo-app:
+  web:
     build:
       context: .
       dockerfile: dockerfile
-    container_name: todo-app-container
+    container_name: to-do-app
     ports:
-      - "80:80"
-    environment:
-      - NODE_ENV=production
-    restart: unless-stopped
+      - "8080:80"
     networks:
-      - todo-network
+      - app-network
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
       interval: 30s
-      timeout: 3s
+      timeout: 10s
       retries: 3
-      start_period: 5s
-    volumes:
-      - ./src:/usr/share/nginx/html:ro
+      start_period: 10s
 
 networks:
-  todo-network:
+  app-network:
     driver: bridge
