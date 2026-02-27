@@ -1,21 +1,14 @@
-# Use official Nginx image as base
-FROM nginx:alpine
+# Set working directory
+WORKDIR /usr/share/nginx/html
 
-# Remove default nginx config
-RUN rm /etc/nginx/conf.d/default.conf
+# Copy frontend files to Nginx's default serving directory
+COPY ./src .
 
-# Copy custom nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy nginx configuration
+COPY ./nginx.conf /etc/nginx/nginx.conf
 
-# Copy all source files to Nginx web root
-COPY src/ /usr/share/nginx/html/
-
-# Expose port 80 for HTTP traffic
+# Expose port 80
 EXPOSE 80
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD wget --quiet --tries=1 --spider http://localhost/ || exit 1
-
-# Start Nginx in foreground mode
+# Start Nginx server
 CMD ["nginx", "-g", "daemon off;"]
