@@ -1,8 +1,8 @@
 # To-do-Application
 
 ## GROUP INFORMATION
-Niroshini Sachithananthan-ITBIN-2313-0074-Role:DevOps Engineer
-Deva nivethitha Thiyagaraja-ITBIN-2313-0075-Role:Full-Stack Developer
+- Niroshini Sachithananthan-ITBIN-2313-0074-Role:DevOps Engineer
+- Deva nivethitha Thiyagaraja-ITBIN-2313-0075-Role:Full-Stack Developer
 
 ## PROJECT DESCRIPTION
 This is a mobile friendly todo list applications that helps users manage their daily task 
