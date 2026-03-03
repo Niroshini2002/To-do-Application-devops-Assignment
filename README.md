@@ -48,5 +48,36 @@ https://to-do-application-devops-assignment-six.vercel.app/
 - Integrated local storage for data persistence
 - Built statistics dashboard and user feedback system
 
-## BUILD STATUS BADGES
-[![Build Status](https://github.com/your-username/To-do-Application-devops-Assignment/actions/workflows/ci.yml/badge.svg)](https://github.com/your-username/To-do-Application-devops-Assignment/actions)
+## PREREQUISITES
+- Docker Engine 20.10 or higher
+- Docker Compose 2.0 or higher
+- Git
+
+## BUILDING AND RUNNING COMMANDS
+### Using Docker Compose (Recommended):
+
+```bash
+# Clone the repository
+git clone https://github.com/Niroshini2002/To-do-Application-devops-Assignment
+cd To-do-Application-devops-Assignment
+
+# Build and run using Docker Compose
+docker-compose up --build
+
+# Access the application
+# Open browser and navigate to http://localhost:8080
+# For stop the server
+docker-compose down 
+```
+
+### Manual Docker Build:
+
+```bash
+# Build the Docker image
+docker build -t to-do-app:latest .
+
+# Run the container
+docker run -p 8080:80 --name to-do-app to-do-app:latest
+
+# Access the application
+# Open browser and navigate to http://localhost:8080
